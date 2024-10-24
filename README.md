@@ -1,7 +1,21 @@
 # HomeLab 1: Turning my Unused Laptop into a Cloud-based Storage Server.
 ## Introduction
+<p align="justify">
 In this project, I am going to turn my unused old laptop into a Cloud-based storage server and try to connect it to the WAN so that it can be accessible remotely with a different WiFi. The sake of this project is to learn the OS, Virtualization, Computer Architecture and Networking fundamental. In this project, we will be installing NextCloud as my Cloud-based storage server's platform. Next, I am going to treat the laptop as a newly bought machine just like those newly arrived uninstalled servers in data centers. Therefore, I will be performing deep formatting, basic Windows OS' installation, virtualized OS (WSL)'s installation, NextCloud Cloud Server Platform's installation, LAN routing and WAN routing.
+</p>
+## Project Objective
+<p align="justify">
+- To treat the old unused laptop as a new server hardware, try to set up a Cloud-based environment from scratch, including the installation of host OS, Virtual Machine, NextCloud apps and make it remotely accessible for LAN and WAN network.
+</p>
 ## Laptop Specs and OS Versions
+<p align="center">
+  <img width="60%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageSpecs.png?raw=true">
+  <br> Local Windows and Machine Specs
+</p>
+<p align="center">
+  <img width="60%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/Screenshot%202024-09-16%20234257.png?raw=true">
+  <br> WSL Distribution Specs and Version
+</p>
 ## Steps and Methodologies
 ### 1. Laptop Deep Clean & Windows OS Installation.
 <p align="center">
@@ -133,8 +147,9 @@ Perform routing to LAN using port forwarding:
 # HTTP port:80
 netsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=172.19.131.7
 ```
-
+<p align="justify">
 After port forwarding is done, there is a route from the virtualized WSL’s service IP to the local machine, so that it's exposed to the outer LAN. However, you still cannot remote access it from other LAN devices. Firewall Policy needs to be set, allow port 80 and port 3389 in the policy.
+</p>
 <p align="center">
   <img width="70%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageFIRE.png?raw=true">
   <br> Figure 9: Firewall Policy
@@ -157,4 +172,70 @@ Now NextCloud from Device A can be access successfully from Device B through LAN
 </p>
 
 ### 6.1. Remote Access on WAN level with Different WiFi through Port Forwarding [FAILED!]
+**WAN Network Design**
+<p align="center">
+  <img width="70%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageWAN.png?raw=true">
+  <br> Figure 13: WAN Remote Access Network Design
+</p>
+Login to the home router and perform the following port forwarding config:
+<p align="center">
+  <img width="70%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageRouter.png?raw=true">
+  <br> Figure 14: Home Router Port Forwarding
+</p>
+However, it will not work because my home ISP has implemented NAT:
+
+**Network Address Translation (NAT)**
+<p align="justify">
+This network concept is invented to prevent IPv4 address exhaustion. NAT allows for a single public IP address to be shared among multiple devices with private IP addresses. This conserves public IP addresses and adds an extra layer of security as private IP addresses are not routed on the public internet.
+
+Private IPs:
+
+- **192.168.0.0 – 192.168.255.255** (65,536 IP addresses)
+- **172.16.0.0 – 172.31.255.255** (1,048,576 IP addresses)
+- **10.0.0.0 – 10.255.255.255** (16,777,216 IP addresses)
+
+My WAN IP address is different than the Public IP address.
+</p>
+
 ### 6.2. Remote Access on WAN level with Different WiFi through TailScale VPN Tunneling System [SUCCESS!]
+<p align="justify">
+This leaves us to another method, which is through tunneling VPN system, this method is easier to set-up, lower cost and easier to maintain as well. Besides, it goes through a VPN tunnel which limits the access to other users making it way more secure, but this also means that it is no longer open for public usage. In this case, we are using an OpenSource application called TailScale.
+</p>
+**VPN Network Design**
+<p align="center">
+  <img width="70%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageVPN.png?raw=true">
+  <br> Figure 15: VPN Network Design
+</p>
+
+Download the tailscale on the WSL. Login with an account.
+``` Shell
+curl -fsSL https://tailscale.com/install.sh | sh
+```
+
+The remote machine will also need to have TailScale downloaded, login to the same account. Register the two machines under the same account.
+<p align="center">
+  <img width="70%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageTailScale.png?raw=true">
+  <br> Figure 16: TailScale VPN
+</p>
+The result as shown below, both machines are connected to different WiFi, but they can still communicate with each other remotely. It worked, project's objective accomplished.
+
+<p align="center">
+  <img width="70%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/Screenshot%202024-10-24%20230922.png?raw=true">
+  <br> Figure 17: Access Remotely through VPN
+</p>
+
+## Summary and Finding
+<p align="justify">
+This project is relatively direct and easy to understand for beginners who like to dwell themselves into the world of System and Networking as this project expose me with Operating System and Computer Architecture's fundamental working. It also taught me how to connect our own local machine for LAN and WAN usage, the networking and routing logics behind it make it more fun to learn and explore. However, in this project the limitation is that I could not connect it to WAN through port forwarding on the router, unless I call the ISP and ask for the permission which is not free. Nevertheless, I'm still able to achieve what I targeted from the beginning. Lastly thanks for your attention.
+</p>
+
+## Credit & References
+
+
+NextCloud on WSL - https://www.youtube.com/watch?v=W4AjWkWnETU&list=LL&index=93&t=163s
+
+WSL Networking on LAN - https://www.youtube.com/watch?v=yCK3easuYm4&list=LL&index=10&t=439s
+
+<p align="center">
+  <img width="40%" src="https://github.com/Yong-Wai-Chun/Python-Maze-Library-Mod/blob/main/components/giphy.gif?raw=true">
+</p>
