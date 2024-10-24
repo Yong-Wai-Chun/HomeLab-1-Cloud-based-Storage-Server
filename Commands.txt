@@ -1,0 +1,79 @@
+# Format Disk (CMD)
+diskpart
+list disk
+sele disk 0
+clean
+
+# Create Partition (CMD)
+create part efi size=100
+create part msr size=16
+create part primary
+
+select part 1
+format fs=fat32 quick label="EFI"
+assign # (assign letter)
+select part 3
+format fs=ntfs quick label="Windows 11 Pro"
+assign # (assign letter)
+
+# Enable Virtualization Platform (CMD)
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all
+
+# enable virtualization platform
+Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
+# enable wsl2
+wsl --set-default-version 2
+# download the wsl kernel update
+$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi -OutFile .\wsl_update_x64.msi
+# reset progress preference
+$ProgressPreference = 'Continue'
+# install the downloaded file
+.\wsl_update_x64.msi
+
+# Install WSL
+wsl --list --online
+wsl --install -d Ubuntu
+sudo apt update
+sudo apt upgrade -y
+
+# zip install
+sudo apt install unzip wget -y
+# install Apache HTTPD and MySQL
+sudo apt install apache2 mariadb-server mariadb-client -y
+# install PHP components
+sudo apt install php libapache2-mod-php php-mysql php-common php-cli php-common php-json php-opcache php-readline php-intl php-json php-gd php-mbstring php-mysql php-xml php-zip php-curl -y
+# start the mariadb service
+sudo service mariadb start
+# configure the MySQL database
+sudo su
+mysql_secure_installation
+
+# SQL (WSL)
+mysql -u root -p
+
+SHOW DATABASES; # if database created, no need to create
+
+CREATE DATABASE clouddb;
+GRANT ALL ON clouddb.* to 'user'@'localhost' IDENTIFIED BY 'Password_01';
+FLUSH PRIVILEGES;
+EXIT;
+exit
+
+# NextCloud Installation (WSL)
+# download latest nextcloud version
+wget -O /tmp/nextcloud.zip https://download.nextcloud.com/server/releases/latest.zip
+# extract downloaded nextcloud archive
+sudo unzip -q /tmp/nextcloud.zip -d /var/www
+# set the owner of the new nextcloud directory to www-data
+sudo chown -R www-data:www-data /var/www/nextcloud
+
+# enable the nextcloud config
+sudo a2ensite nextcloud
+# enable required apache modules
+sudo a2enmod rewrite headers env dir mime dav
+# restart apache2 service for the changes to take effect
+sudo service apache2 restart
+
+# Port forwarding WSL to LAN level
+netsh interface portproxy add v4tov4 listenport=80 listenaddress=0.0.0.0 connectport=80 connectaddress=172.19.131.7
