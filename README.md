@@ -3,10 +3,12 @@
 <p align="justify">
 In this project, I am going to turn my unused old laptop into a Cloud-based storage server and try to connect it to the WAN so that it can be accessible remotely with a different WiFi. The sake of this project is to learn the OS, Virtualization, Computer Architecture and Networking fundamental. In this project, we will be installing NextCloud as my Cloud-based storage server's platform. Next, I am going to treat the laptop as a newly bought machine just like those newly arrived uninstalled servers in data centers. Therefore, I will be performing deep formatting, basic Windows OS' installation, virtualized OS (WSL)'s installation, NextCloud Cloud Server Platform's installation, LAN routing and WAN routing.
 </p>
+
 ## Project Objective
 <p align="justify">
 - To treat the old unused laptop as a new server hardware, try to set up a Cloud-based environment from scratch, including the installation of host OS, Virtual Machine, NextCloud apps and make it remotely accessible for LAN and WAN network.
 </p>
+
 ## Laptop Specs and OS Versions
 <p align="center">
   <img width="60%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/imageSpecs.png?raw=true">
@@ -16,6 +18,7 @@ In this project, I am going to turn my unused old laptop into a Cloud-based stor
   <img width="60%" src="https://github.com/Yong-Wai-Chun/HomeLab-1-Cloud-based-Storage-Server/blob/main/img/Screenshot%202024-09-16%20234257.png?raw=true">
   <br> WSL Distribution Specs and Version
 </p>
+
 ## Steps and Methodologies
 ### 1. Laptop Deep Clean & Windows OS Installation.
 <p align="center">
