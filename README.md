@@ -1,7 +1,7 @@
 # HomeLab 1: Turning my Unused Laptop into a Cloud-based Storage Server.
 ## Introduction
 <p align="justify">
-In this project, I am going to turn my unused old laptop into a Cloud-based storage server and try to connect it to the WAN so that it can be accessed remotely with a different WiFi. The sake of this project is to learn about the OS, Virtualization, Computer Architecture and Networking fundamental. In this project, we will be installing NextCloud as my Cloud-based storage server's platform. Next, I am going to treat the laptop as a newly bought machine just like those newly arrived uninstalled servers in data centers. Therefore, I will be performing deep formatting, basic Windows OS' installation, virtualized OS (WSL)'s installation, NextCloud Cloud Server Platform's installation, LAN routing and WAN routing.
+In this project, I am going to turn my unused old laptop into a Cloud-based storage server and try to make it accessible remotely with a different WiFi. The sake of this project is to learn about the OS, Virtualization, Computer Architecture and Networking fundamental. In this project, I am going to treat the laptop as a newly bought machine just like those newly arrived uninstalled servers in data centers. Next, I will be installing NextCloud as my Cloud-based storage server's platform. Therefore, I will be performing deep formatting, basic Windows OS' installation, virtualized OS (WSL)'s installation, NextCloud Cloud Server Platform's installation, LAN routing and WAN routing.
 </p>
 
 ## Project Objective
@@ -229,7 +229,7 @@ The result as shown below, both machines are connected to different WiFi, but th
 
 ## Summary and Finding
 <p align="justify">
-This project is relatively direct and easy to understand for beginners who like to dwell themselves into the world of System and Networking as this project expose me with Operating System and Computer Architecture's fundamental working. It also taught me how to connect our own local machine for LAN and WAN usage, the networking and routing logics behind it make it more fun to learn and explore. However, in this project the limitation is that I could not connect it to WAN through port forwarding on the router, unless I call the ISP and ask for the permission which is not free. Nevertheless, I'm still able to achieve what I targeted from the beginning. Lastly thanks for your attention.
+This project is a good learning point for who like to dwell themselves into the world of System and Networking as this project expose me with Operating System and Computer Architecture's fundamental working. It also taught me how to connect our own local machine for LAN and WAN usage, the networking and routing logics behind it make it more fun to learn and explore. However, in this project the limitation is that I could not connect it to WAN through port forwarding on the router, unless I contact the ISP and ask for the permission which is not free. Nevertheless, I'm still able to achieve what I targeted from the beginning. Lastly thanks for your attention.
 </p>
 
 ## Credit & References
